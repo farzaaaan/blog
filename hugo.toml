@@ -35,7 +35,7 @@ enableGitInfo = true
     name = ' farzan'
 
 [params]
-  gitRepo = "https://github.com/dillonzq/LoveIt"
+  gitRepo = "https://github.com/farzaaaan/blog"
 
 [params.header]
     [params.header.title]
