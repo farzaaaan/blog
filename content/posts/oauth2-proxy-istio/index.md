@@ -224,3 +224,5 @@ this is all well and good, but what if I want to add oauth2-proxy to this setup?
 
 
 ### istio: external auth
+
+external auth
