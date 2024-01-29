@@ -1,9 +1,8 @@
-
 {{ define "main" }}
   {{- $images := .Resources.ByType "image" }}
   {{- $cover := $images.GetMatch (.Params.cover | default "*cover*") }}
   {{- $feature := $images.GetMatch (.Params.feature | default "*feature*") | default $cover }}
-  <article class="max-w-full">
+  <article>
     <header class="max-w-prose">
       {{ if .Params.showBreadcrumbs | default (.Site.Params.article.showBreadcrumbs | default false) }}
         {{ partial "breadcrumbs.html" . }}
@@ -34,19 +33,19 @@
         </div>
       {{ end }}
     </header>
-    <section class="prose mt-6 max-w-full dark:prose-invert">
+    <section class="prose mt-6 flex max-w-full flex-col dark:prose-invert ">
       {{ if and (.Params.showTableOfContents | default (.Site.Params.article.showTableOfContents | default false)) (in .TableOfContents "<ul") }}
-        <div class="order-first px-0">
+        <div class="order-first px-0 ">
           <div class="toc pe-5 print:hidden lg:sticky lg:top-10">
             {{ partial "toc.html" . }}
           </div>
         </div>
       {{ end }}
-      <div class="prose mt-6 max-w-full dark:prose-invert">
+      <div class="min-h-0 min-w-full max-w-full grow">
         {{ .Content | emojify }}
       </div>
     </section>
-    <footer class="prose mt-6 max-w-full dark:prose-invert">
+    <footer class="max-w-full pt-8 print:hidden">
       {{ partial "author.html" . }}
       {{ partial "sharing-links.html" . }}
       {{ partial "article-pagination.html" . }}
