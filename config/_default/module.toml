@@ -1,8 +1,8 @@
 [[imports]]
 path = "github.com/jpanther/congo/v2"
 
-[[imports]]
-path = 'github.com/hugomods/shortcodes'
+# [[imports]]
+# path = 'github.com/hugomods/shortcodes'
 
 [[imports]]
 path = "github.com/gethugothemes/hugo-modules/tab"
