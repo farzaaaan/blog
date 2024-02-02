@@ -1,3 +1,17 @@
+github.com/gethugothemes/hugo-modules/accordion v0.0.0-20240125040205-f89da7357d93 h1:n6CKDEke6PpdZt5KmE8nen687uVABabZpWw4A4+S3dI=
+github.com/gethugothemes/hugo-modules/accordion v0.0.0-20240125040205-f89da7357d93/go.mod h1:D4DpauKPDcUHI9CVKYmJeO6bkSJIhUN864TyXZ2o0VI=
+github.com/gethugothemes/hugo-modules/shortcodes/collapse v0.0.0-20240125040205-f89da7357d93 h1:d1587u8ApdYCMdm3BGt9MgXh1eQNBAY0aq2Bh2Mw4II=
+github.com/gethugothemes/hugo-modules/shortcodes/collapse v0.0.0-20240125040205-f89da7357d93/go.mod h1:rBCFuR+QzMk0S1npR0zVDzgocFncOmyxWToJlRw4ZxU=
+github.com/gethugothemes/hugo-modules/shortcodes/notice v0.0.0-20240125040205-f89da7357d93 h1:yrDTqZDcMz+dSlkqiQvNwF/53ngJuCcqSgKKIptIUBg=
+github.com/gethugothemes/hugo-modules/shortcodes/notice v0.0.0-20240125040205-f89da7357d93/go.mod h1:ljWyMJx82WA+6SlKjbGFhEdxcriyvUTCjXkJHDa4lho=
+github.com/gethugothemes/hugo-modules/shortcodes/table-of-contents v0.0.0-20240125040205-f89da7357d93 h1:DTBNJS4gZG682RumLhQdlZhuE88GOGxx9rVACL4yigQ=
+github.com/gethugothemes/hugo-modules/shortcodes/table-of-contents v0.0.0-20240125040205-f89da7357d93/go.mod h1:LKCp/rg9cHtfjHpIEYmpR8kuauI8JNN79nmdkFURXp0=
+github.com/gethugothemes/hugo-modules/tab v0.0.0-20240125040205-f89da7357d93 h1:PxEFYPH0eHsOjt4COQawaUc+c0f0SMX9hL/Fe5t6m7o=
+github.com/gethugothemes/hugo-modules/tab v0.0.0-20240125040205-f89da7357d93/go.mod h1:h3UxlxrFoU19JldxWLPBKaTZFe3AJtABrqo1wfxr+Ng=
+github.com/gethugothemes/hugo-modules/table-of-contents v0.0.0-20240125040205-f89da7357d93 h1:kb0cJefpS4a/0kWoMd/0BBITb8jg63EyVDZxIyhnJG0=
+github.com/gethugothemes/hugo-modules/table-of-contents v0.0.0-20240125040205-f89da7357d93/go.mod h1:bEDw4veccQQQYEdVrfu13ATRUWfW8ptDIjJZuhYh4Tw=
+github.com/gethugothemes/hugo-modules/videos v0.0.0-20240125040205-f89da7357d93 h1:vS9oa0InJ284isM9VFCLWxklGVAIYe9tbo6K65z2/LE=
+github.com/gethugothemes/hugo-modules/videos v0.0.0-20240125040205-f89da7357d93/go.mod h1:P722lLWdnNhdZVq6gvMrOLqECUwrAYQWaOWlChta5H0=
 github.com/hugomods/shortcodes v0.13.2 h1:l/pahltOVCYv8Mz0Mg5bL1BLXWUxnTYYEVsy1XyorbM=
 github.com/hugomods/shortcodes v0.13.2/go.mod h1:EnVopbZMNI/HeteM3Lp3phBTCRLvPSe7l142qhRFFPY=
 github.com/jpanther/congo/v2 v2.8.0 h1:/XkKK/ywD2SgSwjeYxwx7lLXIM7tt9wS5MvUaAnv9u0=

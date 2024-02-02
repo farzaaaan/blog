@@ -13,7 +13,6 @@
 {{ $scriptsLazy := slice }}
 {{ range .Site.Params.plugins.js }}
 
-  <p> {{.link }}</p>
   {{ if findRE "^http" .link }}
     <script
       src="{{ .link | relURL }}"
@@ -32,7 +31,7 @@
 {{ $scripts = $scripts | append (resources.Get "js/main.js") }}
 {{ $scripts = $scripts | resources.Concat "js/script.js" }}
 
-
+{{/* $scriptsLazy = $scriptsLazy | resources.Concat "js/script-lazy.js" */}}
 
 {{ if hugo.IsProduction }}
   {{ $scripts = $scripts | minify | fingerprint }}
