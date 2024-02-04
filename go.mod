@@ -10,6 +10,5 @@ require (
 	github.com/gethugothemes/hugo-modules/tab v0.0.0-20240125040205-f89da7357d93 // indirect
 	github.com/gethugothemes/hugo-modules/table-of-contents v0.0.0-20240125040205-f89da7357d93 // indirect
 	github.com/gethugothemes/hugo-modules/videos v0.0.0-20240125040205-f89da7357d93 // indirect
-	github.com/hugomods/shortcodes v0.13.2 // indirect
 	github.com/jpanther/congo/v2 v2.8.0 // indirect
 )
