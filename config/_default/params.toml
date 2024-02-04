@@ -86,3 +86,14 @@ fingerprintAlgorithm = "sha256"
 
 [[plugins.js]]
 link = "js/tab.js"
+
+[[plugins.js]]
+link = "js/accordion.js"
+
+# [[plugins.js]]
+# link = "plugins/youtube-lite.js"
+
+# [[plugins.js]]
+# link = "plugins/vimeo-lite.js"
+
+[[plugins.css]]

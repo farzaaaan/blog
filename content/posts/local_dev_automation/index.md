@@ -6,14 +6,12 @@ tags: ["gitea", "traefik", "local"]
 topics: ["devops"]
 categories: ["automation"]
 # layout: "simple"
-showTableOfContents: true
+showTableOfContents: false
 summary: "this is an article about setting up an automated local dev environment"
 ---
+{{< toc >}}
 
-<!-- I recently went through and set up a local environment for development in terms of automation. for this, I installed gitea for my version control. but didn't want to have access gitea over an ip, so I installed traefik and a dns server - pihole. then I tried accessing the docker repo on gitea but docker login needs ssl so I ended up creating a root certificate with minica. I create cnames from my dns server to the host of my traefik, then I used traefik to resolve the hostname to the right application and terminated the TLS at it and sent http to the final application, gitea.
 
-I then installed gitea runner on a server that I intend to continuously update as I develop, and created a workflow in gitea to run an generate a new tagged docker image and automatically store it in the docker repo of gitea. I then had a dockercompose running on my dev machine that I could rerun and get the latest image. -->
- 
 ## Introduction
 
 there is a point in each of our tech journies where we start getting comfy in the cloud. we get used to the simplicity and the intuitiveness of spinning up nodes with just a few lines of YAML, delegated to a data center somewhere else - probably on the same continent as us. as professionals we navigate streamlined workflows that take millions of dollars in investments, and as hobbyists we have the simplicity of the likes of GitHub, Cloudflare, Netlify, etc.. at our fingertips.
@@ -26,7 +24,9 @@ what if I could just:
 
  
 
-{{% details "1. make a new project" %}}
+{{< tabs "what-if" >}}
+{{< tab "1. new project" >}}
+
 ```bash
 > mkcd ~/dev/cool_project && go mod init example.com/cool_project
 
@@ -41,12 +41,12 @@ what if I could just:
     EOF 
     
 ```
-{{% /details %}}
+{{< /tab >}}
 
 
 
 
-{{% details "2. create dockerfile and docker-compose" %}}
+{{< tab "2. add docker and compose" >}}
 ```bash
 > cat << EOF > ~/dev/cool_project/Dockerfile
   FROM golang:latest
@@ -71,11 +71,11 @@ what if I could just:
       restart: always
   EOF
 ```
-{{% /details %}}
+{{< /tab >}}
 
 
 
-{{% details "3. add a pipeline to automate build and deployment" %}}
+{{< tab "3. add a pipeline" >}}
 ```bash
 > cat << EOF > .github/workflows/build-and-push.yml
   name: Build and Push Docker Imag  
@@ -107,7 +107,8 @@ what if I could just:
             docker push gitea.local/cool_project:latest
     EOF
   ```
-{{% /details %}}
+{{< /tab >}}
+{{< /tabs >}}
 
 and voila! from here on a simple commit push and `docker compose up -d` is all it takes to see my changes in actions. and I can come back to that draft of an idea anytime in the future and everything would still work as I left it last time because it would all be maintained in its own repo and pipelines.
 
@@ -137,6 +138,13 @@ there are two ways you could run your pihole in docker, 1: in bridge mode, 2: in
 
 to run pihole, save this `docker-compose.yml` file, and run `docker compose up -d`
 
+
+
+{{< tabs "pihole-setup" >}}
+
+{{< tab "docker-compose.yml" >}}
+
+
 ```yml
 version: "3"
 
@@ -164,8 +172,12 @@ services:
       - NET_ADMIN # Required if you are using Pi-hole as your DHCP server, else not needed
     restart: unless-stopped
 ```
+{{< /tab >}}
 
+{{< tab "resolv.conf"  >}}
 you may have noticed that I'm mounting _/etc/resolv.conf_ file. this file tells a container os what hostnames to use to resolve dns. since this would sit behind my router, where I would set this containers ip as my dns server it would attempt to resolve hosts using its own ip and unsuprisingly fail. so to avoid this, create a _resolv.conf_ file and set its content to following:
+
+<br>
 
 ```shell
 > cat << EOF > /my/network/share/pihole/resolv.conf
@@ -173,6 +185,9 @@ you may have noticed that I'm mounting _/etc/resolv.conf_ file. this file tells 
   nameserver 8.8.8.8
   EOF
 ```
+{{< /tab >}}
+
+{{< /tabs >}}
 
 
 
@@ -181,6 +196,8 @@ you may have noticed that I'm mounting _/etc/resolv.conf_ file. this file tells 
 
 gitea is [well documented](https://docs.gitea.com/) and I highly recommend reading through it. there is a dedicated doc for [installing on docker](https://docs.gitea.com/installation/install-with-docker) as well as a [handy config sheet](https://docs.gitea.com/administration/config-cheat-sheet). to install it, save and run the following `docker-compose.yml`:
 
+{{< tabs "gitea-setup">}}
+{{< tab "docker-compose.yml" >}}
 ```yml
 version: "3"
 
@@ -242,8 +259,9 @@ services:
       options:
         max-size: "1m"
 ```
+{{< /tab >}}
+{{< tab ".env" >}}
 
-and you'd need this environment file to go along with it:
 
 ```shell
 > cat << EOF > /my/network/share/gitea/.env
@@ -254,13 +272,19 @@ and you'd need this environment file to go along with it:
   GITEA_DATA=/my/network/share/gitea-data
   EOF
 ```
-you might have noticed _traefik_ configurations in the compose, we'll be deploying traefik next but for now those could be ignored. also, in addition to gitea we are also deploying a _redis cache_ to be used by it.
+{{< /tab >}}
+{{< /tabs >}}
+you might have noticed _traefik_ configurations in the compose, we'll be deploying traefik [next](#traefik) but for now those could be ignored. notice we are also deploying a _redis cache_ to be used by gitea [as documented here](https://docs.gitea.com/administration/config-cheat-sheet#cache-cache).
 
 the domain I'm hosting my gitea at is _gitea.beebox.lan_, with _beebox.lan_ being an A record I set in pihole pointing to the ip of my server, and _gitea.beebox.lan_ is a cname poiting to that dns. 
 
 _gitea.beebox.lan_ is the hostname that is sent to traefik, and traefik will forwrd those requests to gitea container's port 3000, sorta. actually it doesn't forward the traffic directly to container port because we are first terimnating TLS, then routing the traffic. [more about ssl/tls here](#securing-access-with-ssltls)
 
+
 ### traefik
+
+{{< tabs "traefik-setup">}}
+{{< tab "docker-compose.yml" >}}
 
 ```yaml
 ## https://github.com/karvounis/traefik-tutorial-docker-compose-files/blob/master/standalone/advanced/docker-compose.dashboard.yml
@@ -345,7 +369,8 @@ networks:
     name: socket_proxy
     driver: bridge
 ```
-
+{{< /tab >}}
+{{< tab ".env" >}}
 you would need this environment file to go with it:
 
 
@@ -358,7 +383,8 @@ you would need this environment file to go with it:
   TRAEFIK_VERSION=2.10
   EOF
 ```
-
+{{< /tab >}}
+{{< /tabs >}}
 notice that in addition to treafik, we're also deploying sock-proxy for additional security. and while we allow traefik access to socketproxy via _socket\_proxy network_, we also expose traefik on _traefik\_public_ network. the latter is the network we would use for treafik to discover other services, as we did with [gitea](#gitea)
 
 ## Securing Access with SSL/TLS
