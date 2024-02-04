@@ -43,10 +43,11 @@
         {{ end }}
       </main>
       {{- partial "footer.html" . -}}
+      {{- partial "essentials/script.html" . -}}
       {{ if .Site.Params.enableSearch | default false }}
         {{- partial "search.html" . -}}
       {{ end }}
-      {{/* testing JS from plugins */}}
+      <!-- {{/* testing JS from plugins */}}
       {{ $tabalgorithm := .Site.Params.fingerprintAlgorithm | default "sha256" }}
       {{ $tab := resources.Get "js/tab.js" }}
       {{ $tab = $tab | resources.Minify | resources.Fingerprint $tabalgorithm }}
@@ -54,7 +55,7 @@
         type="text/javascript"
         src="{{ $tab.RelPermalink }}"
         integrity="{{ $tab.Data.Integrity }}"
-      ></script>
+      ></script> -->
     </div>
   </body>
 </html>

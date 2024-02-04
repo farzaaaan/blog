@@ -82,3 +82,7 @@ fingerprintAlgorithm = "sha256"
   # pinterest = ""
   # yandex = ""
 
+
+
+[[plugins.js]]
+link = "js/tab.js"
