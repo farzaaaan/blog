@@ -29,14 +29,13 @@ so I thought to myself what if I try to bring the cloud on my local network. wha
 
 what if I could just: 
 
-1.  
-    ```bash
-    mkcd ~/dev/cool_project && go mod init example.com/cool_project
-    ```
+ 
 
-2. 
-    ```bash
-    cat << EOF > ~/dev/cool_project/main.go
+{{% details "1. make a new project" %}}
+```bash
+> mkcd ~/dev/cool_project && go mod init example.com/cool_project
+
+> cat << EOF > ~/dev/cool_project/main.go
     package main
 
     import "fmt"
@@ -45,76 +44,78 @@ what if I could just:
         fmt.Println("Hello, World!")
     }
     EOF 
-    ```
-3. 
-    ```bash
-    cat << EOF > ~/dev/cool_project/Dockerfile
-    FROM golang:latest
     
-    WORKDIR /app
-    
-    COPY . .
-    
-    RUN go build -o main .
-    
-    CMD ["./main"]
+```
+{{% /details %}}
+
+
+
+<br/>
+{{% details "2. createa dockerfile, and a docker-compose" %}}
+```bash
+> cat << EOF > ~/dev/cool_project/Dockerfile
+  FROM golang:latest
+
+  WORKDIR /app
+
+  COPY . .
+
+  RUN go build -o main .
+
+  CMD ["./main"]
+  EOF
+
+> cat << EOF > ~/dev/cool_project/docker-compose.yml
+  version: '3.8'
+  services:
+    cool_project:
+      image: gitea.local/cool_project:latest
+      container_name: cool_project_container
+      ports:
+        - "8080:8080"
+      restart: always
+  EOF
+```
+{{% /details %}}
+
+<br/>
+{{% details "3. add a pipeline to automatically run build an image and push to my local repo" %}}
+```bash
+> cat << EOF > .github/workflows/build-and-push.yml
+  name: Build and Push Docker Imag  
+  on:
+    push:
+      branches:
+        - mai 
+  jobs:
+    build-and-push:
+      runs-on: ubuntu-lates 
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v  
+        - name: Login to Docker registry
+          run: echo "${{ secrets.DOCKER_PASSWORD }}" |  \
+          docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin gitea.loca 
+        - name: Build and tag Docker image
+          run: docker build -t cool_project   
+        - name: Get build number
+          id: get_build_number
+          run: echo ::set-output name=build_number::\${GITHUB_RUN_NUMBER  
+        - name: Tag Docker image with build number
+          run: docker tag cool_project gitea.local/cool_project:\${{ steps.get_build_number.outputs.build_number }  
+        - name: Tag Docker image as latest
+          run: docker tag cool_project gitea.local/cool_project:lates 
+        - name: Push Docker images to registry
+          run: |
+            docker push gitea.local/cool_project:\${{ steps.get_build_number.outputs.build_number }}
+            docker push gitea.local/cool_project:latest
     EOF
-    ```
-4. 
-    ```bash
-    cat << EOF > ~/dev/cool_project/docker-compose.yml
-    version: '3.8'
-    services:
-      cool_project:
-        image: gitea.local/cool_project:latest
-        container_name: cool_project_container
-        ports:
-          - "8080:8080"
-        restart: always
-    EOF
+  ```
+{{% /details %}}
 
-    ```
-5. 
-    ```bash
-    cat << EOF > .github/workflows/build-and-push.yml
-    name: Build and Push Docker Image
+and from this point I just push my commit, and just run `docker compose up -d` and see my change?
 
-    on:
-      push:
-        branches:
-          - main
 
-    jobs:
-      build-and-push:
-        runs-on: ubuntu-latest
-
-        steps:
-          - name: Checkout code
-            uses: actions/checkout@v2
-
-          - name: Login to Docker registry
-            run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin gitea.local
-
-          - name: Build and tag Docker image
-            run: docker build -t cool_project .
-
-          - name: Get build number
-            id: get_build_number
-            run: echo ::set-output name=build_number::\${GITHUB_RUN_NUMBER}
-
-          - name: Tag Docker image with build number
-            run: docker tag cool_project gitea.local/cool_project:\${{ steps.get_build_number.outputs.build_number }}
-
-          - name: Tag Docker image as latest
-            run: docker tag cool_project gitea.local/cool_project:latest
-
-          - name: Push Docker images to registry
-            run: |
-              docker push gitea.local/cool_project:\${{ steps.get_build_number.outputs.build_number }}
-              docker push gitea.local/cool_project:latest
-    EOF
-    ```
-6. and from this point on every time I have a new change and push my change, I could just run `docker compose up -d` and see my change.
 ## Setting Up a Local Development Environment
 
 Describe the steps you took to set up your local development environment.
