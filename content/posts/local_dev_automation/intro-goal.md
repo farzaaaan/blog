@@ -91,4 +91,3 @@ my goal is to be able to:
 {{< /tab >}}
 {{< /tabs >}}
 
-and voila! from here on a simple commit push and `docker compose up -d` is all it takes to see my changes in actions. and I can come back to that draft of an idea anytime in the future and everything would still work as I left it last time because it would all be self-contained.

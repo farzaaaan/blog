@@ -1,6 +1,6 @@
 continuing with the goal of making life easier, once I have my local git repository I would not want to refer to it with an IP. for a few reasons, namely: 
 
-1. most local devises lease their IP from the _DHCP server_ and this IP could change. we could solve for it using _static ips_, however, 
+1. most local devices lease their IP from the _DHCP server_ and this IP could change. we could solve for it using _static ips_, however, 
 2.  `192.168.0.29/user/repo.git` does not feel right, or clean, or methodical, or easy. 
 
 so we need a dns server on our local network. for this I went with [pi-hole](https://github.com/pi-hole/pi-hole). although there are other options such as [blocky](https://github.com/0xERR0R/blocky). or one could also just edit _hosts_ file and assign a qualifier to an ip, although I wouldn't recommend.
@@ -19,8 +19,8 @@ there two ways to setup networking for pihole, or any other dns service you go w
 {{< /accordion >}}
 
 {{< accordion title="macvlan mode" class="accordion-minimal">}}
-1. [macvlan](https://docs.docker.com/network/drivers/macvlan/) requests a dedicate ip address for our network from the router. hence allowing us to use _:53_ of this ip instead of host's. this is a good option if we do need _:53_ to remain free for host.
-2. the problem with mcvlan is that the host, where the docker engine is running, would not be able to resolve to it. this means that our host cannot use our internal dns server. [there are ways to resolve this](https://stackoverflow.com/a/64360858), but it adds unneccessary maintenance to our setup.  
+1. [macvlan](https://docs.docker.com/network/drivers/macvlan/) requests a dedicated ip address for our network from the router. hence allowing us to use _:53_ of this ip instead of host's. this is a good option if we do need _:53_ to remain free for host.
+2. the problem with macvlan is that the host, where the docker engine is running, would not be able to resolve to it. this means that our host cannot use our internal dns server. [there are ways to resolve this](https://stackoverflow.com/a/64360858), but it adds unneccessary maintenance to our setup.  
 {{< /accordion >}}
 
  
@@ -69,7 +69,7 @@ services:
 {{< /tab >}}
 
 {{< tab "resolv.conf"  >}}
-you may have noticed that I'm mounting _/etc/resolv.conf_ file. this file tells a container os what hostnames to use to resolve dns. since this container would sit behind my router, where I would set its own ip as my dns server it would attempt to resolve hosts using its own ip and unsuprisingly fail. so to avoid this, create a _resolv.conf_ file and set its content to following:
+you may have noticed that I'm mounting _/etc/resolv.conf_ file. this file tells the container what hostnames to use to resolve dns. since this container would sit behind my router, where I would set its own ip as my dns server it would attempt to resolve hosts using its own ip and unsuprisingly fail. so to avoid this, create a _resolv.conf_ file and set its content to following:
 
 <br>
 
@@ -82,3 +82,9 @@ you may have noticed that I'm mounting _/etc/resolv.conf_ file. this file tells 
 {{< /tab >}}
 
 {{< /tabs >}}
+
+
+after pihole is up and running, don't forget to login and add a _DNS Record_ for the host you intend to run gitea on. _foo.lan_ as an example. Next, you'll need to setup a CNAM for gitea, _gitea.foo.lan_. what will happen here is: 
+- when user requests _gitea.foo.lan_
+- pihole routes traffic to _foo.lan_, whre _gitea.foo.lan_ will become _host header value_.
+- _foo.lan_ will resolve to port _:80_, where traefik will capture it, and route it to destination application via its _hostname: gitea.foo.lan_. we defined this using _traefik..._ labels in [gitea](#git-and-package-repository) docker-compose.

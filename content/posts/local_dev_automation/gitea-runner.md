@@ -1,4 +1,4 @@
-so we have our local environment setup and ready. now we need workflows, and to run the flows we need [act runners](https://docs.gitea.com/next/usage/actions/act-runner/). gitea act runners use [github actions](https://docs.github.com/en/actions) syntax and tags. 
+so we have our local environment setup and ready. now we need workflows, [act runners](https://docs.gitea.com/next/usage/actions/act-runner/). gitea act runners use [github actions](https://docs.github.com/en/actions) syntax and tags. 
 
 let's set up our first act runner: 
 
@@ -42,6 +42,18 @@ RUNNER_NAME=[name]
 RUNNER_LABELS=ubuntu-latest:docker://node:16-bullseye, \
               cth-ubuntu-latest:docker://catthehacker/ubuntu:act-latest
 ```
+{{< /tab >}}
+{{< tab "config.yaml" >}}
+while for the most part we could leave the generated _config.yaml_ as is, we need to make two changes to allow our locally signed root certificate on the runner:
+
+    containers:
+        ...
+        options:
+            -v /etc/ssl/certs:/etc/ssl/certs
+        ...
+        valid_volumes:
+            - '**'
+             
 {{< /tab >}}
 
 {{< /tabs >}}
