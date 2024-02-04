@@ -8,6 +8,7 @@ categories: ["automation"]
 # layout: "simple"
 showTableOfContents: false
 summary: "this is an article about setting up an automated local dev environment"
+draft: false
 ---
 {{< toc >}}
 

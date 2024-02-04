@@ -1,13 +1,3 @@
-      <!-- {{/* testing JS from plugins */}}
-      {{ $tabalgorithm := .Site.Params.fingerprintAlgorithm | default "sha256" }}
-      {{ $tab := resources.Get "js/tab.js" }}
-      {{ $tab = $tab | resources.Minify | resources.Fingerprint $tabalgorithm }}
-      <script
-        type="text/javascript"
-        src="{{ $tab.RelPermalink }}"
-        integrity="{{ $tab.Data.Integrity }}"
-      ></script> -->
-
 <!-- JS Plugins + Main script -->
 {{ $scripts := slice }}
 {{ $scriptsLazy := slice }}
@@ -31,11 +21,9 @@
 {{ $scripts = $scripts | append (resources.Get "js/main.js") }}
 {{ $scripts = $scripts | resources.Concat "js/script.js" }}
 
-{{/* $scriptsLazy = $scriptsLazy | resources.Concat "js/script-lazy.js" */}}
 
 {{ if hugo.IsProduction }}
   {{ $scripts = $scripts | minify | fingerprint }}
-  {{ $scriptsLazy = $scriptsLazy | minify | fingerprint }}
 {{ end }}
 
 {{/* scripts */}}
