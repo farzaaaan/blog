@@ -37,7 +37,8 @@
     }
     let giscusScript = document.createElement("script");
     Object.entries(giscusAttributes).forEach(([key, value]) => giscusScript.setAttribute(key, value));
-    document.body.appendChild(giscusScript);
+    var mainElement = document.querySelector('main');
+    mainElement.appendChild(giscusScript);
 
     window.addEventListener("DOMContentLoaded", (event) => {
         var switchers = document.querySelectorAll("[id^='appearance-switcher']");
