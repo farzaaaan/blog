@@ -1,0 +1,20 @@
+[[imports]]
+path = "github.com/jpanther/congo/v2"
+
+# [[imports]]
+# path = 'github.com/hugomods/shortcodes'
+
+[[imports]]
+path = "github.com/gethugothemes/hugo-modules/tab"
+
+[[imports]]
+path = "github.com/gethugothemes/hugo-modules/accordion"
+
+[[imports]]
+path = "github.com/gethugothemes/hugo-modules/shortcodes/notice"
+
+[[imports]]
+path = "github.com/gethugothemes/hugo-modules/table-of-contents"
+
+[[imports]]
+path = "github.com/gethugothemes/hugo-modules/videos"

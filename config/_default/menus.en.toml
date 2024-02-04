@@ -1,0 +1,44 @@
+# [[main]]
+#     name = "Blog"
+#     pageRef = "posts"
+#     weight = 10
+
+# [[main]]
+#   name = "GitHub"
+#   url = "https://github.com/farzaaaan"
+#   weight = 30
+#   [main.params]
+#     icon = "github"
+#     showName = false
+#     target = "_blank"
+
+[[main]]
+  [main.params]
+    action = "search"
+    icon = "search"
+#   [main.params]
+#       action = "appearance"
+    #   icon = "appearance"
+[[main]]
+  identifier = "appearnce"
+  [main.params]
+    action = "appearance"
+
+
+[[footer]]
+  name = "Twitter"
+  url = "https://twitter.com/farzaaaan"
+  weight = 30
+  [footer.params]
+    icon = "twitter"
+    showName = false
+    target = "_blank"
+
+[[footer]]
+  name = "GitHub"
+  url = "https://github.com/farzaaaan/blog"
+  weight = 40
+  [footer.params]
+    icon = "github"
+    showName = false
+    target = "_blank"
